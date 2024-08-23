@@ -534,4 +534,6 @@ Miscellaneous OSINT Tools
     GitHub: LittleBrother
 
 These tools can further enhance your OSINT and reconnaissance capabilities, making your investigations more comprehensive and effective. Integrating these into your workflow will allow you to gather more in-depth intelligence and identify potential vulnerabilities or risks more effectively.
-ChatGPT can make mistakes. Check important info.
+
+
+***** Never Not Learning *****

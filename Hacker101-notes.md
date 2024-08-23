@@ -352,3 +352,7 @@ Methodology and Tactics:
 The methodology behind legal and reporting frameworks ensures that all parties are protected, and that the engagement is conducted within agreed-upon boundaries. The Non-Disclosure Agreement (NDA) protects sensitive information, while the Master Service Agreement (MSA) and Statement of Work (SOW) define the scope, objectives, and deliverables of the engagement. The final pentest report documents the entire process, from methodology to findings, providing actionable recommendations to the client. The tactic is to maintain transparency, legal compliance, and clear communication throughout the penetration testing engagement.
 
 These additions should provide a more thorough understanding of the methodologies and tactics involved in each section. The explanations and command-line examples are designed to give practical insights into how these techniques are applied in real-world penetration testing scenarios.
+
+
+
+***** Never Not Learning *****

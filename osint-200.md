@@ -231,7 +231,6 @@ ChatGPT can make mistakes. Check important info.
 
 
 2.10 News and Historical Data
-
     Media Search Engines:
         Purpose: Search for news articles and press releases about the target.
         Tools:
@@ -298,4 +297,7 @@ Ensure all activities comply with relevant laws, particularly regarding privacy,
 This guide provides a comprehensive approach to passive OSINT and cryptocurrency investigations. By leveraging a variety of tools and techniques, you can gather extensive information about a target without direct interaction. Additionally, understanding how cryptocurrency and blockchain technology intersect with cybercrime is crucial for effective investigations. Always ensure your activities are conducted ethically and within the bounds of the law.
 
 This report serves as a robust resource for anyone looking to engage in passive OSINT gathering or investigate cryptocurrency transactions. Whether you are a security professional, investigator, or someone interested in cybersecurity, the tools and techniques outlined here will enhance your ability to gather and analyze intelligence effectively.
-ChatGPT can make mistakes. Check important info.
+
+
+
+***** Never Not Learning *****
