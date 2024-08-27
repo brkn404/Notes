@@ -2516,3 +2516,7 @@ D. Covert Communication Channels via IoT Devices
 Conclusion
 
 Advanced detection and attribution avoidance require creative thinking and a deep understanding of both offensive and defensive techniques. By leveraging everyday tools and unconventional communication methods, attackers can effectively evade detection and maintain their anonymity. Techniques like ICMP tunneling, leveraging LoRa networks, exploiting blockchain technology, and using IoT protocols offer diverse avenues for covert communication. As defenders and investigators, understanding these techniques is crucial for developing effective countermeasures and maintaining secure environments.
+
+
+
+***** Never Not Learning *****
